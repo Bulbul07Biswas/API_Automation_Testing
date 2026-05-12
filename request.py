@@ -31,29 +31,54 @@ token = "e95a4e29b2f93d1079d2d899f272ea59d0e1471da8c21099196ade90a17d321e"
 def post_request():
     url= base_url+ "/public/v2/users"
     header= {"Authorization": f"Bearer {token}" }
-    data = {"name":"Poornima","email":"poornima09@gmail.com","gender":"female","status":"inactive"}
+    data = {"name":"Naman","email":"naman@gmail.com","gender":"female","status":"Inactive"}
     response = requests.post(url,json = data, headers= header)
     print("POST Response :")
     print(f"POST Status Code: {response.status_code}")
     json_data = response.json()
     json_str = json.dumps(json_data, indent= 3) 
+    user_id=json_data["id"]
     print(json_str)
-    return json_data.get("id")
+    return user_id
 
-def put_request(user_id):
-    url = f"{base_url}/public/v2/users/{user_id}"
-    header ={"Authorization": f"Bearer {token}"}
-    data= {
-    "name": "Poornima",
-    "email": "Poornima09@gmail.com",
-    "gender": "female",
-    "status": "inactive"
-     }
-    response = requests.put(url, json = data, headers= header)
-    print(f"PUT Status Code:{response.status_code}")
-    json_data = response.json()
-    print("PUT Response:")
-    print(json.dumps(json_data, indent=3))
+# def put_request(user_id):
+#     url = f"{base_url}/public/v2/users/{user_id}"
+#     header ={"Authorization": f"Bearer {token}"}
+#     data= {
+#     "name": "Reshmi",
+#     "email": "Reshmi@gmail.com",
+#     "gender": "female",
+#     "status": "inactive"
+#      }
+#     response = requests.put(url, json = data, headers= header)
+#     print(f"PUT Status Code:{response.status_code}")
+#     assert response.status_code==200
+#     json_data = response.json()
+#     assert json_data["id"]== user_id
+#     assert json_data["name"]== "Reshmi"
+#     print("PUT Response:")
+#     print(json.dumps(json_data, indent=3))
+
       
-user_id=post_request()   
-put_request(user_id)
+
+
+
+#Delete Method
+
+def delete_request(user_id):
+    url= f"{base_url}/public/v2/users/{user_id}"
+    print("Delete url:"+ url)
+    header ={"Authorization": f"Bearer {token}"}
+    response = requests.delete(url, headers= header)
+    print(f"DELETE Status Code: {response.status_code}")
+    assert response.status_code == 204
+    print("DELETE USER IS DONE....")
+
+
+
+
+
+#Call
+user_id = post_request()   
+# put_request(user_id)
+delete_request(user_id)
